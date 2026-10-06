@@ -12,9 +12,9 @@
 <section class="content">
   <h1 class="home-heading-one">Fülle bitte das untenstehende Formular aus</h1>
 
-  <form action="{{ include.form_action | default: 'https://formspree.io/f/xblodabw' }}" method="POST" class="competition-form">
-    <input type="hidden" name="_next" value="{{ include.next_path }}">
+  <form action="https://submit-form.com/{{ site.formspark_form_id }}" method="POST" class="competition-form" data-next-path="{{ include.next_path }}">
     <input type="hidden" name="Anmeldungstyp" value="{{ include.signup_type }}">
+    <input type="hidden" name="signup_type" value="{{ include.signup_type }}">
     <input type="hidden" name="signup_version" value="{{ include.signup_version | default: include.signup_type }}">
 
     <div class="form-group">
@@ -29,7 +29,7 @@
 
     <div class="form-group">
       <label for="{{ include.form_id }}-email">E-Mail</label>
-      <input type="email" id="{{ include.form_id }}-email" name="E-Mail" required>
+      <input type="email" id="{{ include.form_id }}-email" name="email" required>
     </div>
 
     {% if include.show_phone != false %}
@@ -114,6 +114,7 @@
 
     <button type="submit" class="btn btn--primary">Formular abschicken, weiter zur Bezahlung *</button>
     <p><small>* Die Anmeldung ist erst nach Zahlung vollständig und gültig</small></p>
+    <p class="notice--danger" role="alert" hidden>Beim Senden ist ein Fehler aufgetreten. Bitte versuche es erneut.</p>
   </form>
 
   <div class="notice--primary">
@@ -130,65 +131,40 @@
       return;
     }
 
-    var nextField = form.querySelector('input[name="_next"]');
-    if (!nextField || !nextField.value) {
+    var nextPath = form.getAttribute('data-next-path');
+    if (!nextPath) {
       return;
     }
 
-    var nextUrl = new URL(nextField.value, window.location.origin).toString();
-    nextField.value = nextUrl;
-
-    var redirectField = form.querySelector('input[name="_redirect"]');
-    if (!redirectField) {
-      redirectField = document.createElement('input');
-      redirectField.type = 'hidden';
-      redirectField.name = '_redirect';
-      form.appendChild(redirectField);
-    }
-    redirectField.value = nextUrl;
+    var nextUrl = new URL(nextPath, window.location.origin).toString();
+    var errorMessage = form.querySelector('[role="alert"]');
 
     form.addEventListener('submit', function (event) {
       event.preventDefault();
+      errorMessage.hidden = true;
 
       var submitButton = form.querySelector('button[type="submit"]');
       if (submitButton) {
         submitButton.disabled = true;
       }
 
-      // Formspree can accept the submission while the browser blocks response parsing.
-      // We always forward to the configured payment page after submit attempt.
       fetch(form.action, {
         method: (form.method || 'POST').toUpperCase(),
-        body: new FormData(form),
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
         headers: {
+          'Content-Type': 'application/json',
           Accept: 'application/json'
         }
       })
         .then(function (response) {
           if (!response.ok) {
-            return response
-              .json()
-              .then(function (data) {
-                var message = 'Beim Senden ist ein Fehler aufgetreten. Bitte versuche es erneut.';
-                if (data && data.errors && data.errors.length) {
-                  message = data.errors
-                    .map(function (item) {
-                      return item.message;
-                    })
-                    .join(' ');
-                }
-                throw new Error(message);
-              })
-              .catch(function () {
-                throw new Error('Beim Senden ist ein Fehler aufgetreten. Bitte versuche es erneut.');
-              });
+            throw new Error('Submission failed');
           }
 
           window.location.href = nextUrl;
-          return null;
         })
         .catch(function () {
-          window.location.href = nextUrl;
+          errorMessage.hidden = false;
         })
         .finally(function () {
           if (submitButton) {

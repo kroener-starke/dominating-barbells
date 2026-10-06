@@ -77,11 +77,11 @@ Auf dieser Webseite wird FontAwesome allerdings lokal gehostet und somit keine D
 
 ### Anmeldungen & Checkout
 
-Für die Anmeldung zu Wettkämpfen nutzen wir ein Formular des Dienstleisters **Formspree**. Die Bezahlung erfolgt über **Shopify Buy Buttons**. Dabei werden personenbezogene Daten (z. B. Name, E-Mail, Adresse) übermittelt und verarbeitet.
+Für die Anmeldung zu Wettkämpfen nutzen wir ein Formular des Dienstleisters **Formspark**. Die Bezahlung erfolgt über **Shopify Buy Buttons**. Dabei werden personenbezogene Daten (z. B. Name, E-Mail, Adresse) übermittelt und verarbeitet.
 
-Die Verarbeitung dient ausschließlich der Abwicklung Ihrer Anmeldung und Zahlung. Dabei gelten die Datenschutzrichtlinien von Formspree und Shopify.
+Die Verarbeitung dient ausschließlich der Abwicklung Ihrer Anmeldung und Zahlung. Dabei gelten die Datenschutzrichtlinien von Formspark und Shopify.
 Weitere Informationen dazu finden Sie hier:
-🔗 [Formspree Datenschutzerklärung](https://formspree.io/legal/privacy-policy)
+🔗 [Formspark Datenschutzerklärung](https://formspark.io/legal/privacy-policy/)
 🔗 [Shopify Datenschutzerklärung](https://www.shopify.de/legal/datenschutz)
 
 #### Terminbuchung über Cal.com

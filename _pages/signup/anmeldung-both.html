@@ -24,8 +24,11 @@ sitemap: false
 
   <h1 class="home-heading-one">Fülle bitte das untenstehende Formular aus</h1>
 
-  <form action="https://formspree.io/f/xkgrovav" method="POST" class="competition-form">
-    <input type="hidden" name="_next" value="/bb2-zahlung-bench-and-deadlift-uc547vr">
+  <form action="https://submit-form.com/{{ site.formspark_form_id }}" method="POST" class="competition-form">
+    <input type="hidden" name="_redirect" value="{{ '/bb2-zahlung-bench-and-deadlift-uc547vr' | absolute_url }}">
+    <input type="hidden" name="_error" value="{{ page.url | absolute_url }}">
+    <input type="hidden" name="_append" value="false">
+    <input type="hidden" name="signup_type" value="Barbell Battle 2.0 - Bench & Deadlift">
     <div class="form-group">
       <label for="gender">Geschlecht</label>
       <select id="gender" name="Geschlecht" required>
@@ -71,7 +74,7 @@ sitemap: false
 
     <div class="form-group">
       <label for="email">E-Mail</label>
-      <input type="email" id="email" name="Email" required>
+      <input type="email" id="email" name="email" required>
     </div>
 
     <div class="form-group">
@@ -81,12 +84,12 @@ sitemap: false
 
     <div class="form-group">
       <label for="bestleistung_bench">Bestleistung Bankdrücken</label>
-      <input type="text" id="bestleistung_bench" name="Bestleistung Bankdrücken/Kreuzheben" required>
+      <input type="text" id="bestleistung_bench" name="Bestleistung Bankdrücken" required>
     </div>
 
     <div class="form-group">
       <label for="bestleistung_dl">Bestleistung Kreuzheben</label>
-      <input type="text" id="bestleistung_dl" name="Bestleistung Bankdrücken/Kreuzheben" required>
+      <input type="text" id="bestleistung_dl" name="Bestleistung Kreuzheben" required>
     </div>
 
     <div class="form-group">
@@ -117,19 +120,3 @@ sitemap: false
 
 
 </section>
-
-<script>
-  (function () {
-    var form = document.querySelector('.competition-form');
-    if (!form) {
-      return;
-    }
-
-    var nextField = form.querySelector('input[name="_next"]');
-    if (!nextField || !nextField.value) {
-      return;
-    }
-
-    nextField.value = new URL(nextField.value, window.location.origin).toString();
-  })();
-</script>
