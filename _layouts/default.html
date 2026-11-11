@@ -76,6 +76,16 @@
 
     // Event Listener für den Einverstanden-Button
     document.getElementById('cookie-consent-btn').addEventListener('click', setCookieConsent);
+
+    // © Jahr: Der Build schreibt das Baujahr als Rückfall ohne JavaScript; der Browser setzt
+    // das aktuelle Jahr, damit die Fußzeile auch ohne neue Veröffentlichung stimmt.
+    function initYear() {
+        var year = String(new Date().getFullYear());
+        document.querySelectorAll('[data-current-year]').forEach(function (el) {
+            if (el.textContent !== year) el.textContent = year;
+        });
+    }
+    document.addEventListener('DOMContentLoaded', initYear);
 </script>
 </div>
 
