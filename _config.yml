@@ -81,6 +81,9 @@ exclude:
   - tmp
   - zz-originale
   - zz-production-site
+  - docker-compose.yml
+  - package-lock.json
+  - scripts
 
 keep_files:
   - .git
